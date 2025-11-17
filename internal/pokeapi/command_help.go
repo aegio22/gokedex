@@ -1,10 +1,10 @@
-package main
+package pokeapi
 
 import (
 	"fmt"
 )
 
-func commandHelp() error {
+func CommandHelp() error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Print("Usage:\n\n")
 

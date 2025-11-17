@@ -1,4 +1,4 @@
-package main
+package pokeapi
 
 import (
 	"bufio"
@@ -25,17 +25,27 @@ func getCommands() map[string]cliCommand {
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
-			callback:    commandExit,
+			callback:    CommandExit,
 		},
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
-			callback:    commandHelp,
+			callback:    CommandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "Prints a list of 20 location areas",
+			callback:    commandMap,
+		},
+		"bmap": {
+			name:        "bmap",
+			description: "Prints a list of the previous 20 location areas",
+			callback:    CommandBMap,
 		},
 	}
 }
 
-func startREPL() {
+func StartREPL() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
