@@ -39,6 +39,4 @@ func TestCleanInput(t *testing.T) {
 
 }
 
-
-
 //func TestREPLScanner(){}

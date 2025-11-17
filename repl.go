@@ -11,11 +11,31 @@ func cleanInput(text string) []string {
 	output := strings.ToLower(text)
 	words := strings.Fields(output)
 	return words
-
-	return words
 }
 
-func firstWordREPL() error {
+// Command registry
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+	}
+}
+
+func startREPL() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -24,14 +44,28 @@ func firstWordREPL() error {
 		scanner.Scan()
 		if scanner.Err() != nil {
 			err := fmt.Errorf("error encountered: %v", scanner.Err())
-			return err
+			fmt.Println(err)
+			continue
 		}
 		if scanner.Text() == "" {
-			return fmt.Errorf("no text in the scanner")
+			fmt.Println("no text in the scanner")
+			continue
 		}
 		words := cleanInput(scanner.Text())
-		line := fmt.Sprintf("Your command was: %s", words[0])
-		fmt.Println(line)
+		commandName := words[0]
+		cmd, exists := getCommands()[commandName]
+
+		if !exists {
+			fmt.Println("Unknown command")
+			continue
+
+		} else {
+			err := cmd.callback()
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+		}
 
 	}
 
