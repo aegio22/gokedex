@@ -1,6 +1,7 @@
 package pokecache
 
 import (
+	"fmt"
 	"sync"
 	"time"
 )
@@ -12,7 +13,7 @@ type cacheEntry struct {
 
 type Cache struct {
 	entries map[string]cacheEntry
-	mx      sync.Mutex
+	mx      *sync.Mutex
 }
 
 func (c *Cache) Add(key string, val []byte) {
@@ -29,10 +30,12 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 	defer c.mx.Unlock()
 	entry, ok := c.entries[key]
 	if !ok {
+		fmt.Println("entry key not there")
 		return []byte{}, false
 	}
 	val := entry.val
 	if val == nil {
+		fmt.Println("entry val not there")
 		return []byte{}, false
 	}
 	return val, true
@@ -56,9 +59,9 @@ func (c *Cache) reapLoop(interval time.Duration) {
 
 }
 
-func NewCache(interval time.Duration) *Cache {
-	newCache := &Cache{entries: make(map[string]cacheEntry),}
-	// possible wrong implementation of the reapLoop
+func NewCache(interval time.Duration) Cache {
+	newCache := Cache{entries: make(map[string]cacheEntry), mx: &sync.Mutex{}}
+
 	go newCache.reapLoop(interval)
 	return newCache
 

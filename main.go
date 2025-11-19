@@ -1,9 +1,15 @@
 package main
 
 import (
+	"time"
+
 	"github.com/aegio22/gokedex/internal/pokeapi"
 )
 
 func main() {
-	pokeapi.StartREPL()
+	pokeClient := pokeapi.NewClient(5*time.Second, time.Minute*5)
+	cfg := &config{
+		pokeapiClient: pokeClient,
+	}
+	StartREPL(cfg)
 }

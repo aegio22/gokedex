@@ -1,10 +1,10 @@
-package pokeapi
+package main
 
 import (
 	"fmt"
 )
 
-func CommandHelp() error {
+func CommandHelp(cfg *config) error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Print("Usage:\n\n")
 

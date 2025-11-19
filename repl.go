@@ -1,11 +1,19 @@
-package pokeapi
+package main
 
 import (
 	"bufio"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/aegio22/gokedex/internal/pokeapi"
 )
+
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
 
 func cleanInput(text string) []string {
 	output := strings.ToLower(text)
@@ -17,7 +25,7 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -35,17 +43,17 @@ func getCommands() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "Prints a list of 20 location areas",
-			callback:    commandMap,
+			callback:    commandMapf,
 		},
 		"bmap": {
 			name:        "bmap",
 			description: "Prints a list of the previous 20 location areas",
-			callback:    CommandBMap,
+			callback:    commandMapb,
 		},
 	}
 }
 
-func StartREPL() {
+func StartREPL(cfg *config) {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -70,7 +78,7 @@ func StartREPL() {
 			continue
 
 		} else {
-			err := cmd.callback()
+			err := cmd.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 				continue
