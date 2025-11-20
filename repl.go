@@ -25,7 +25,7 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -43,12 +43,17 @@ func getCommands() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "Prints a list of 20 location areas",
-			callback:    commandMapf,
+			callback:    CommandMapf,
 		},
 		"bmap": {
 			name:        "bmap",
 			description: "Prints a list of the previous 20 location areas",
-			callback:    commandMapb,
+			callback:    CommandMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Print a list of all Pokémon located in a given location",
+			callback:    CommandExplore,
 		},
 	}
 }
@@ -69,8 +74,17 @@ func StartREPL(cfg *config) {
 			fmt.Println("no text in the scanner")
 			continue
 		}
+
+		var args []string
 		words := cleanInput(scanner.Text())
 		commandName := words[0]
+
+		if len(words) > 1 {
+			args = words[1:]
+		} else {
+			args = []string{}
+		}
+
 		cmd, exists := getCommands()[commandName]
 
 		if !exists {
@@ -78,7 +92,7 @@ func StartREPL(cfg *config) {
 			continue
 
 		} else {
-			err := cmd.callback(cfg)
+			err := cmd.callback(cfg, args)
 			if err != nil {
 				fmt.Println(err)
 				continue

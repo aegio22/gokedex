@@ -10,10 +10,18 @@ type mapResult struct {
 	Count    int     `json:"count"`
 	Next     *string `json:"next"`
 	Previous *string `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
+	Results  []locArea `json:"results"`
+}
+
+type locArea struct{
+	Name               string `json:"name"`
+	URL                string `json:"url"`
+	Pokemon_Encounters []struct {
+		Pokemon struct {
+			Id   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"pokemon"`
+	} `json:"pokemon_encounters"`
 }
 
 func (c *Client) ListLocations(pageURL *string) (mapResult, error) {
