@@ -7,21 +7,39 @@ import (
 )
 
 type mapResult struct {
-	Count    int     `json:"count"`
-	Next     *string `json:"next"`
-	Previous *string `json:"previous"`
+	Count    int       `json:"count"`
+	Next     *string   `json:"next"`
+	Previous *string   `json:"previous"`
 	Results  []locArea `json:"results"`
 }
 
-type locArea struct{
+type locArea struct {
 	Name               string `json:"name"`
 	URL                string `json:"url"`
 	Pokemon_Encounters []struct {
-		Pokemon struct {
+		Pokemon Pokemon `json:"pokemon"`
+	} `json:"pokemon_encounters"`
+}
+
+type Pokemon struct {
+	Id             int    `json:"id"`
+	Name           string `json:"name"`
+	BaseExperience int    `json:"base_experience"`
+	Height         int    `json:"height"`
+	Weight         int    `json:"weight"`
+	Stats          []struct {
+		Stat struct {
+			StatId   int    `json:"id"`
+			StatName string `json:"name"`
+		} `json:"stat"`
+		BaseStatVal int `json:"base_stat"`
+	} `json:"stats"`
+	Types []struct {
+		Type struct {
 			Id   int    `json:"id"`
 			Name string `json:"name"`
-		} `json:"pokemon"`
-	} `json:"pokemon_encounters"`
+		} `json:"type"`
+	} `json:"types"`
 }
 
 func (c *Client) ListLocations(pageURL *string) (mapResult, error) {
