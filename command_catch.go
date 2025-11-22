@@ -22,7 +22,7 @@ func CommandCatch(cfg *config, args []string) error {
 		return errors.New("pokemon already in dex")
 	}
 
-	fmt.Printf("Throwing a Pokeball at %v\n", pokemon.Name)
+	fmt.Printf("Throwing a Pokeball at %v...\n", pokemon.Name)
 	catch, err := cfg.pokeapiClient.TryCatch(&pokemon)
 	if err != nil {
 		return err
