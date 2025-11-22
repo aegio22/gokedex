@@ -1,5 +1,3 @@
-# Pokédex CLI (Go)
-
 A simple command-line Pokédex application written in Go.  
 It interacts with the PokéAPI to explore locations, discover Pokémon, catch them, and inspect your personal Pokédex.
 
@@ -35,8 +33,7 @@ Shows all Pokémon that can be found in the given location area.
 **Example:**
 explore kanto-route-1
 
-vbnet
-Copy code
+
 
 ### `catch <pokemon>`
 Attempts to catch a Pokémon.  
@@ -45,8 +42,6 @@ If successful, it will be added to your Pokédex.
 **Example:**
 catch pikachu
 
-makefile
-Copy code
 
 ### `inspect <pokemon>`
 Displays detailed information for a Pokémon you’ve already caught — stats, types, etc.
@@ -54,8 +49,6 @@ Displays detailed information for a Pokémon you’ve already caught — stats, 
 **Example:**
 inspect pikachu
 
-yaml
-Copy code
 
 ### `pokedex`
 Lists all Pokémon you have successfully caught.
