@@ -58,6 +58,6 @@ Lists all Pokémon you have successfully caught.
 ## Installation
 
 ```bash
-git clone <your-repo-url>
+git clone "https://github.com/aegio22/gokedex"
 cd pokedex
 go run .
