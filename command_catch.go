@@ -31,5 +31,5 @@ func CommandCatch(cfg *config, args []string) error {
 		cfg.pokedex[pokemon.Name] = pokemon
 	}
 	return nil
-
+	
 }
